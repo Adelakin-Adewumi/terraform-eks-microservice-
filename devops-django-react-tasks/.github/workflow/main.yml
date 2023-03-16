@@ -1,0 +1,44 @@
+name: microservice application
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  push_to_Docker_Hub:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # build docker image and push to docker hub
+    # only if the app build and test successfully
+
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+
+
+# reverse_proxy_frontend   
+      - name: Build and push reverse-proxy-frontend
+        uses: docker/build-push-action@v2
+        with:
+          context: ./reverse_proxy_hng-main/frontend/
+          file: ./reverse_proxy_hng-main/frontend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/reverse-proxy-frontend:latest

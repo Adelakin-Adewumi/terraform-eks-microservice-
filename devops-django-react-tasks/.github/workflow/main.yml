@@ -31,14 +31,14 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+          
 
 
-
-# reverse_proxy_frontend   
+# devops-django-react-tasks   
       - name: Build and push reverse-proxy-frontend
         uses: docker/build-push-action@v2
         with:
-          context: ./reverse_proxy_hng-main/frontend/
-          file: ./reverse_proxy_hng-main/frontend/Dockerfile
+          context: ./devops-django-react-tasks/frontend/
+          file: ./devops-django-react-tasks/frontend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/reverse-proxy-frontend:latest

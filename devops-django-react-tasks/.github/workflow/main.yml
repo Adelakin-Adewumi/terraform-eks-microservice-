@@ -1,4 +1,4 @@
-name: microservice application
+name: django-react application
 
 on:
   push:
